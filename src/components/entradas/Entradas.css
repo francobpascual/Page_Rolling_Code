@@ -1,0 +1,134 @@
+.entradas {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  background-color: #0b0b0c;
+}
+
+.promocion {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 24px;
+  padding: 24px;
+}
+
+.disponibilidad {
+  min-width: 0;
+}
+
+.disponibilidad-textos {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.disponibilidad progress {
+  width: 100%;
+}
+
+.entradas-grilla {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.entrada-card {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 24px;
+  background-color: #111113;
+  border-radius: 28px;
+  border: solid 1px #2c2c31;
+}
+
+.entrada-card-encabezado {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.entrada-precios {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 8px;
+  color: #ffffff;
+}
+
+.entrada-beneficios {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  color:  #ffffff;
+}
+
+.entrada-beneficios li {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.entrada-boton {
+  width: 100%;
+  margin-top: auto;
+  background-color:#0b0b0c ;
+  color: #ffffff;
+  border-radius: 32px;
+}
+
+.entrada-card--virtual {
+  grid-column: 1 / -1;
+}
+
+@media (max-width: 767px) {
+  .promocion,
+  .entradas-grilla {
+    grid-template-columns: 1fr;
+  }
+}
+
+.h3{
+  color: #ffffff;
+
+}
+
+.titulo-entrada {
+  color: #ffffff;
+
+
+}
+#titulo-entradas {
+  color: #ffffff;
+
+}
+
+.entrada-etiqueta{
+background-color: #0b0b0c;
+border-radius: 32px;
+color: #ffffff;
+border: solid 1px #2c2c31;
+
+}
+.entrada-descripcion{
+  color: #d4d4d8;
+}
+.tilde{
+  color: #e0202a;
+}
+
+.entrada-card:hover {
+  background: red;
+}
+.entrada-card:hover .tilde {
+  color: #ffffff;
+}
+.entrada-card:hover .entrada-boton {
+  background: #ffffff;
+  color: black;
+}
