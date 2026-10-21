@@ -1,0 +1,247 @@
+.contact {
+  background-color: #0a0a0a;
+  color: #ffffff;
+  padding: 64px 24px;
+}
+
+.contact,
+.contact * {
+  box-sizing: border-box;
+}
+
+.contact-contenedor {
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  align-items: center;
+  gap: 64px;
+}
+
+.contact-info {
+  min-width: 0;
+}
+
+.contact-subtitulo {
+  margin: 0 0 12px;
+  color: #ed1727;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 2px;
+}
+
+.contact-titulo {
+  margin: 0 0 24px;
+  font-size: clamp(32px, 4vw, 46px);
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -1px;
+}
+
+/* Dirección */
+.contact-direccion {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+}
+
+.contact-icono {
+  width: 26px;
+  height: 26px;
+  flex-shrink: 0;
+  color: #ed1727;
+}
+
+.contact-direccion address {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+
+  font-style: normal;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.contact-direccion address span {
+  color: #b5b5b5;
+}
+
+/* Fecha, horario y piso */
+.contact-detalles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+
+  list-style: none;
+  padding: 0;
+  margin: 20px 0;
+}
+
+.contact-detalles li {
+  padding: 6px 14px;
+  border: 1px solid #303030;
+  border-radius: 999px;
+  font-size: 12px;
+}
+
+/* Botones */
+.contact-acciones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.contact-boton {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+
+  min-height: 44px;
+  padding: 10px 22px;
+  border: 2px solid transparent;
+  border-radius: 999px;
+
+  color: #ffffff;
+  text-decoration: none;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 700;
+
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.contact-boton--mapa {
+  background-color: #ed1727;
+}
+
+.contact-boton--mapa:hover {
+  background-color: #c61020;
+  color: #ffffff;
+}
+
+.contact-boton--entrada {
+  background-color: transparent;
+  border-color: #dddddd;
+}
+
+.contact-boton--entrada:hover {
+  background-color: #ffffff;
+  color: #000000;
+}
+
+/* Mapa ilustrado */
+.contact-mapa {
+  position: relative;
+  display: block;
+  min-width: 0;
+  height: 350px;
+  overflow: hidden;
+
+  background-color: #141414;
+  border: 1px solid #292929;
+  border-radius: 26px;
+
+  color: #ffffff;
+  text-decoration: none;
+}
+
+.contact-mapa-dibujo {
+  position: absolute;
+  inset: 0;
+
+  background-image:
+    linear-gradient(#242424 1px, transparent 1px),
+    linear-gradient(90deg, #242424 1px, transparent 1px);
+  background-size: 44px 44px;
+}
+
+.contact-calle {
+  position: absolute;
+  background-color: #202020;
+  border: 1px solid #2c2c2c;
+}
+
+.contact-calle--horizontal {
+  top: 46%;
+  left: 0;
+  width: 100%;
+  height: 28px;
+}
+
+.contact-calle--vertical {
+  top: 0;
+  left: 58%;
+  width: 28px;
+  height: 100%;
+}
+
+.contact-marcador {
+  position: absolute;
+  top: 46%;
+  left: 58%;
+  transform: translate(-50%, -50%);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background-color: rgb(237 23 39 / 18%);
+}
+
+.contact-marcador svg {
+  width: 42px;
+  height: 42px;
+  color: #ed1727;
+  transform: translateY(-16px);
+}
+
+.contact-mapa-tarjeta {
+  position: absolute;
+  right: 16px;
+  bottom: 16px;
+  left: 16px;
+
+  padding: 14px 16px;
+  background-color: #0a0a0a;
+  border: 1px solid #292929;
+  border-radius: 16px;
+}
+
+.contact-mapa-tarjeta strong {
+  display: block;
+  font-size: 15px;
+}
+
+.contact-mapa-tarjeta span {
+  display: block;
+  margin-top: 3px;
+  color: #999999;
+  font-size: 12px;
+}
+
+.contact-boton:focus-visible,
+.contact-mapa:focus-visible {
+  outline: 3px solid #ffffff;
+  outline-offset: 4px;
+}
+
+/* Adaptación a celulares */
+@media (max-width: 767px) {
+  .contact {
+    padding: 40px 20px;
+  }
+
+  .contact-contenedor {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+
+  .contact-mapa {
+    height: 300px;
+  }
+}
