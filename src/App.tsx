@@ -1,14 +1,12 @@
-import './App.css'
-import Entradas from './components/entradas/Entradas' 
+import './App.css';
+import Tickets from './components/tickets/Tickets';
 
 function App() {
-
   return (
     <>
-     <Entradas />
-     
+      <Tickets />
     </>
-  )
+  );
 }
 
-export default App
+export default App;
