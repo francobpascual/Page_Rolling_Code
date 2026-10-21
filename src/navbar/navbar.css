@@ -1,0 +1,59 @@
+.rc-navbar {
+  --rc-menu-line: #1f1f23;
+  --bs-navbar-padding-y: 20px;
+  --bs-navbar-toggler-border-color: var(--rc-border);
+  background: var(--rc-black);
+  border-bottom: 1px solid var(--rc-menu-line);
+}
+ 
+.rc-navbar__brand {
+  --bs-navbar-brand-color: var(--rc-white);
+  --bs-navbar-brand-hover-color: var(--rc-text-soft);
+  font-weight: 800;
+}
+ 
+.rc-navbar .navbar-nav {
+  --bs-nav-link-color: var(--rc-white);
+  --bs-nav-link-hover-color: var(--rc-text-mute);
+  --bs-nav-link-padding-x: 0;
+  --bs-nav-link-padding-y: 0;
+  --bs-nav-link-font-size: 16px;
+  --bs-nav-link-font-weight: 600;
+  gap: 32px;
+}
+ 
+.rc-navbar .rc-btn {
+  --bs-btn-color: var(--rc-white);
+  --bs-btn-bg: var(--rc-red);
+  --bs-btn-border-color: var(--rc-red);
+  --bs-btn-hover-color: var(--rc-white);
+  --bs-btn-hover-bg: var(--rc-red-dark);
+  --bs-btn-hover-border-color: var(--rc-red-dark);
+  --bs-btn-active-color: var(--rc-white);
+  --bs-btn-active-bg: var(--rc-red-dark);
+  --bs-btn-active-border-color: var(--rc-red-dark);
+  --bs-btn-focus-box-shadow: 0 0 0 3px var(--rc-text-mute);
+  --bs-btn-padding-x: 24px;
+  --bs-btn-padding-y: 10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+ 
+.rc-navbar .navbar-toggler {
+  border-radius: var(--rc-radius-field);
+}
+ 
+.rc-navbar .navbar-toggler:focus {
+  box-shadow: 0 0 0 2px var(--rc-red);
+}
+
+@media (max-width: 991.98px) {
+  .rc-navbar .navbar-nav {
+    gap: var(--rc-gutter);
+    padding-top: var(--rc-gutter);
+  }
+  .rc-navbar .rc-btn {
+    width: 100%;
+  }
+}
