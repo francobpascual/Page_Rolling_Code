@@ -2,6 +2,7 @@
   display: flex;
   flex-direction: column;
   gap: 24px;
+  background-color: #0b0b0c;
 }
 
 .promocion {
@@ -10,18 +11,6 @@
   align-items: center;
   gap: 24px;
   padding: 24px;
-}
-
-.contador {
-  display: flex;
-  gap: 8px;
-}
-
-.contador-unidad {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 12px;
 }
 
 .disponibilidad {
@@ -49,6 +38,9 @@
   flex-direction: column;
   gap: 16px;
   padding: 24px;
+  background-color: #111113;
+  border-radius: 28px;
+  border: solid 1px #2c2c31;
 }
 
 .entrada-card-encabezado {
@@ -63,6 +55,7 @@
   align-items: baseline;
   flex-wrap: wrap;
   gap: 8px;
+  color: #ffffff;
 }
 
 .entrada-beneficios {
@@ -72,6 +65,7 @@
   list-style: none;
   padding: 0;
   margin: 0;
+  color:  #ffffff;
 }
 
 .entrada-beneficios li {
@@ -83,6 +77,9 @@
 .entrada-boton {
   width: 100%;
   margin-top: auto;
+  background-color:#0b0b0c ;
+  color: #ffffff;
+  border-radius: 32px;
 }
 
 .entrada-card--virtual {
@@ -94,4 +91,44 @@
   .entradas-grilla {
     grid-template-columns: 1fr;
   }
+}
+
+.h3{
+  color: #ffffff;
+
+}
+
+.titulo-entrada {
+  color: #ffffff;
+
+
+}
+#titulo-entradas {
+  color: #ffffff;
+
+}
+
+.entrada-etiqueta{
+background-color: #0b0b0c;
+border-radius: 32px;
+color: #ffffff;
+border: solid 1px #2c2c31;
+
+}
+.entrada-descripcion{
+  color: #d4d4d8;
+}
+.tilde{
+  color: #e0202a;
+}
+
+.entrada-card:hover {
+  background: red;
+}
+.entrada-card:hover .tilde {
+  color: #ffffff;
+}
+.entrada-card:hover .entrada-boton {
+  background: #ffffff;
+  color: black;
 }

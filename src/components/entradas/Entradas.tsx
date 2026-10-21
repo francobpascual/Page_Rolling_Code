@@ -61,7 +61,7 @@ const entradas = [
             className={`entrada-card entrada-card--${entrada.id}`}
           >
             <header className="entrada-card-encabezado">
-              <h3>{entrada.nombre}</h3>
+              <h3 className="titulo-entrada">{entrada.nombre}</h3>
               <span className="entrada-etiqueta">
                 {entrada.etiqueta}
               </span>
@@ -75,12 +75,12 @@ const entradas = [
               )}
             </div>
 
-            <p>{entrada.descripcion}</p>
+            <p className="entrada-descripcion">{entrada.descripcion}</p>
 
             <ul className="entrada-beneficios">
               {entrada.beneficios.map((beneficio) => (
                 <li key={beneficio}>
-                  <span aria-hidden="true">✓</span>
+                  <span className="tilde" aria-hidden="true">✓</span>
                   {beneficio}
                 </li>
               ))}
