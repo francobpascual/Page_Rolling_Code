@@ -1,54 +1,42 @@
-import { createElement } from "react";
-import { Button, Container, FormLabel, Nav, Navbar, NavbarCollapse} from "react-bootstrap";
-import "../navbar/navbar.css";
+import { Button, Container, Nav, Navbar } from "react-bootstrap";
+import "./NavBar.css";
 
-interface MenuLink{
+interface MenuLink {
   label: string;
   href: string;
 }
 
-const menuLinks: MenuLink[]=[
-  {label:"speakers", href:"#speakers"},
-  {label:"agenda", href:"#schedule"},
-  {label: "como llegar", href: "#location"}
+const menuLinks: MenuLink[] = [
+  { label: "Speakers", href: "#speakers" },
+  { label: "Agenda", href: "#schedule" },
+  { label: "Cómo llegar", href: "#location" },
 ];
 
-const drakTheme= {"data-bs-theme": "dark"};
+function NavBar() {
+  return (
+    <Navbar expand="lg" className="rc-navbar" data-bs-theme="dark">
+      <Container fluid className="rc-container">
+        <Navbar.Brand href="#home" className="rc-navbar__brand m-0 p-0">
+          Rolling Code School
+        </Navbar.Brand>
 
-function NavBar(){
-  const links= menuLinks.map ((link) =>
-    createElement(Nav.Link, {key: link.href, href: link.href}, link.label)
-  );
+        <Navbar.Toggle aria-controls="main-menu" aria-label="Abrir menú" />
 
-  const ticketsButton= createElement(
-    Button,
-    {variant:"", href: "#tickets", className:"rc-btn rc-btn--menu"},
-    "Comprar entrada"
-  );
-  const brand = createElement(
-    Navbar.Brand,
-    {href: "#home", className: "rc-navbar__brand m-0 p-0"},
-    "Rolling Code School "
-  );
-  const toggle = createElement(Navbar.Toggle,{
-    "aria-controls": "main-menu",
-    "aria-label": "Abrir menu",
-  });
-  const menu = createElement(
-   NavbarCollapse,
-   {id: "main-menu"},
-   createElement(
-    Nav,
-
-    {className: "ms-auto align-items-leg-center gap-lg-4"},
-    ...links,
-    ticketsButton
-   ) 
-  );
-  return createElement(
-    Navbar,
-    {expand: "lg", className: "rc-navbar", ...drakTheme},
-    createElement(Container,{fluid: true, className: "rc.container"},brand,toggle,menu)
+        <Navbar.Collapse id="main-menu">
+          <Nav className="ms-auto align-items-lg-center">
+            {menuLinks.map((link) => (
+              <Nav.Link key={link.href} href={link.href}>
+                {link.label}
+              </Nav.Link>
+            ))}
+            <Button variant="" href="#tickets" className="rc-btn rc-btn--menu">
+              Comprar entrada
+            </Button>
+          </Nav>
+        </Navbar.Collapse>
+      </Container>
+    </Navbar>
   );
 }
+
 export default NavBar;
