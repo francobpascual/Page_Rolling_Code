@@ -1,54 +1,104 @@
-import { createElement } from "react";
-import { Button, Container, FormLabel, Nav, Navbar, NavbarCollapse} from "react-bootstrap";
-import "../navbar/navbar.css";
+import { useState } from "react";
+import logo from "../assets/logo/logo-rolling-blanco.png";
+import "./Navbar.css";
 
-interface MenuLink{
-  label: string;
-  href: string;
-}
 
-const menuLinks: MenuLink[]=[
-  {label:"speakers", href:"#speakers"},
-  {label:"agenda", href:"#schedule"},
-  {label: "como llegar", href: "#location"}
+const navigationLinks = [
+  { href: "#speakers", label: "Speakers" },
+  { href: "#agenda", label: "Agenda" },
+  { href: "#contact", label: "Cómo llegar" },
 ];
 
-const drakTheme= {"data-bs-theme": "dark"};
+function Navbar() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-function NavBar(){
-  const links= menuLinks.map ((link) =>
-    createElement(Nav.Link, {key: link.href, href: link.href}, link.label)
-  );
+  function closeMenu() {
+    setIsMenuOpen(false);
+  }
 
-  const ticketsButton= createElement(
-    Button,
-    {variant:"", href: "#tickets", className:"rc-btn rc-btn--menu"},
-    "Comprar entrada"
-  );
-  const brand = createElement(
-    Navbar.Brand,
-    {href: "#home", className: "rc-navbar__brand m-0 p-0"},
-    "Rolling Code School "
-  );
-  const toggle = createElement(Navbar.Toggle,{
-    "aria-controls": "main-menu",
-    "aria-label": "Abrir menu",
-  });
-  const menu = createElement(
-   NavbarCollapse,
-   {id: "main-menu"},
-   createElement(
-    Nav,
+  return (
+    <header className="site-header">
+      <nav
+        className="site-navbar navbar navbar-expand-lg"
+        aria-label="Navegación principal"
+        onKeyDown={(event) => {
+          if (event.key === "Escape") {
+            closeMenu();
+          }
+        }}
+      >
+        <div className="site-navbar__container">
+          <a
+            className="site-navbar__brand"
+            href="#"
+            aria-label="Rolling Code School — Ir al inicio"
+            onClick={closeMenu}
+          >
+            <img
+              className="site-navbar__logo"
+              src={logo}
+              alt="Rolling Code School"
+            />
+          </a>
 
-    {className: "ms-auto align-items-leg-center gap-lg-4"},
-    ...links,
-    ticketsButton
-   ) 
-  );
-  return createElement(
-    Navbar,
-    {expand: "lg", className: "rc-navbar", ...drakTheme},
-    createElement(Container,{fluid: true, className: "rc.container"},brand,toggle,menu)
+          <button
+            className="site-navbar__toggle"
+            type="button"
+            aria-controls="main-navigation"
+            aria-expanded={isMenuOpen}
+            aria-label={isMenuOpen ? "Cerrar menú" : "Abrir menú"}
+            onClick={() => setIsMenuOpen((previous) => !previous)}
+          >
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              aria-hidden="true"
+            >
+              {isMenuOpen ? (
+                <path d="M6 6l12 12M6 18L18 6" />
+              ) : (
+                <path d="M4 6h16M4 12h16M4 18h16" />
+              )}
+            </svg>
+          </button>
+
+          <div
+            id="main-navigation"
+            className={`site-navbar__menu${
+              isMenuOpen ? " site-navbar__menu--open" : ""
+            }`}
+          >
+            <ul className="site-navbar__links">
+              {navigationLinks.map((link) => (
+                <li key={link.href}>
+                  <a
+                    className="site-navbar__link"
+                    href={link.href}
+                    onClick={closeMenu}
+                  >
+                    {link.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+
+            <a
+              className="site-navbar__button"
+              href="#entradas"
+              onClick={closeMenu}
+            >
+              Comprar entrada
+            </a>
+          </div>
+        </div>
+      </nav>
+    </header>
   );
 }
-export default NavBar;
+
+export default Navbar;
