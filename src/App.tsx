@@ -9,11 +9,16 @@ import Sponsor from "./components/Sponsor/sponsor";
 import Sponsors from "./components/Sponsors/sponsors";
 import Tickets from "./components/tickets/Tickets";
 import Navbar from "./navbar/navbar";
+import Hero from "./components/hero/Hero";
+
+
+
 
 function App() {
   return (
     <>
       <Navbar />
+      <Hero />
       <Metrics />
       <Speakers />
       <Calendar />
