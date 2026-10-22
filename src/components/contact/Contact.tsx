@@ -1,84 +1,92 @@
 import "./Contact.css";
 
 function Contact() {
-  const direccion =
+  const address =
     "Rolling Code School, General Paz 576, San Miguel de Tucumán";
 
-  const enlaceMapa = `https://www.bing.com/maps?q=${encodeURIComponent(
-    direccion
-  )}`;
+  const encodedAddress = encodeURIComponent(address);
+
+  const mapLink =
+     `https://www.bing.com/maps?q=${encodedAddress}`;
+
+  const mapEmbed =
+    `https://maps.google.com/maps?q=${encodedAddress}&output=embed`;
 
   return (
-    <section className="contact" aria-labelledby="contact-titulo">
-      <div className="contact-contenedor">
-        <div className="contact-info">
-          <p className="contact-subtitulo">COMO LLEGAR</p>
-          <h2 id="contact-titulo" className="contact-titulo">
-            Te epesramos en
-            <br />
-            Rolling Code
-            <br />
-            School
-          </h2>
-          <div className="contact-direccion">
-            <svg
-              className="contact-icono"
-              viewBox="0 0 24 24"
-              fill="currentColor"
-              aria-hidden="true"
-            >
-              <path d="M12 2a8 8 0 0 0-8 8c0 6 8 12 8 12s8-6 8-12a8 8 0 0 0-8-8Zm0 11a3 3 0 1 1 0-6 3 3 0 0 1 0 6Z" />
-            </svg>
-            <address>
-              <strong>Calle Gral. Paz 576, Entrepiso</strong>
-              <span>4000 San Miguel de Tucumán, Tucumán</span>
-            </address>
+    <section
+      id="contact"
+      className="contact"
+      aria-labelledby="contact-title"
+    >
+      <div className="contact-container">
+        <div className="row g-4 align-items-center">
+         
+          <div className="col-12 col-lg-5">
+            <div className="contact-info">
+              <p className="contact-eyebrow">CÓMO LLEGAR</p>
+
+              <h2 id="contact-title" className="contact-title">
+                Te esperamos en Rolling Code School
+              </h2>
+
+              <div className="contact-address">
+                <svg
+                  className="contact-icon"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                  aria-hidden="true"
+                >
+                  <path d="M12 2a8 8 0 0 0-8 8c0 6 8 12 8 12s8-6 8-12a8 8 0 0 0-8-8Zm0 11a3 3 0 1 1 0-6 3 3 0 0 1 0 6Z" />
+                </svg>
+
+                <address className="contact-address-text">
+                  <strong>Calle Gral. Paz 576, Entrepiso</strong>
+                  <span>
+                    4000 San Miguel de Tucumán, Tucumán
+                  </span>
+                </address>
+              </div>
+
+              <ul className="contact-details">
+                <li>Jueves 19/11</li>
+                <li>18.00 hs</li>
+                <li>Entrepiso</li>
+              </ul>
+
+              <div className="contact-actions">
+                <a
+                  href={mapLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="contact-button contact-button--map"
+                >
+                  Abrir en Bing Maps
+                </a>
+
+                <a
+                  href="#entradas"
+                  className="contact-button contact-button--tickets"
+                >
+                  Comprar entrada
+                </a>
+              </div>
+            </div>
           </div>
-          <ul className="contact-detalles">
-            <li>Jueves 19/11</li>
-            <li>18.00 hs</li>
-            <li>Entrepiso</li>
-          </ul>
-          <div className="contact-acciones">
-            <a
-              href={enlaceMapa}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="contact-boton contact-boton--mapa"
-            >
-              Abrir en Bing Maps
-            </a>
-            <a
-              href="#entradas"
-              className="contact-boton contact-boton--entrada"
-            >
-              Comprar entrada
-            </a>
+
+          
+          <div className="col-12 col-lg-7">
+            <div className="contact-map">
+              <iframe
+                className="contact-map-frame"
+                title="Ubicación de Rolling Code School"
+                src={mapEmbed}
+                loading="lazy"
+                allowFullScreen
+                referrerPolicy="no-referrer-when-downgrade"
+              />
+            </div>
           </div>
         </div>
-        <a
-          href={enlaceMapa}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="contact-mapa"
-          aria-label="Ver la ubicación de Rolling Code School en Bing Maps"
-        >
-          <div className="contact-mapa-dibujo" aria-hidden="true">
-            <div className="contact-calle contact-calle--horizontal" />
-            <div className="contact-calle contact-calle--vertical" />
-            <div className="contact-marcador">
-              <svg viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 2a8 8 0 0 0-8 8c0 6 8 12 8 12s8-6 8-12a8 8 0 0 0-8-8Zm0 11a3 3 0 1 1 0-6 3 3 0 0 1 0 6Z" />
-              </svg>
-            </div>
-          </div>
-          <div className="contact-mapa-tarjeta">
-            <div>
-              <strong>Rolling Code School</strong>
-              <span>Gral. Paz 576 · San Miguel de Tucumánn</span>
-            </div>
-          </div>
-        </a>
       </div>
     </section>
   );
