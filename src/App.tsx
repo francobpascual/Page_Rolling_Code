@@ -1,5 +1,6 @@
 import "./App.css";
 import Calendar from "./components/Calendar/Calendar";
+import Chatbot from "./components/Chatbot/Chatbot";
 import Contact from "./components/contact/Contact";
 import Speakers from './components/Speakers/Speakers';
 import Footer from './components/footer/Footer';
@@ -21,6 +22,7 @@ function App() {
       <Sponsors />
       <Contact />
       <Footer />
+      <Chatbot />
       
       
     </>

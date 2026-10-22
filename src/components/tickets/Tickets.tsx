@@ -1,48 +1,5 @@
 import "./Tickets.css";
-
-const tickets = [
-  {
-    id: "early",
-    name: "Early Bird",
-    badge: "Quedan 38",
-    price: "$25,000",
-    previousPrice: "$35,000",
-    description: "Presencial · precio especial hasta el 31/10",
-    benefits: [
-      "Acceso a las 10 charlas",
-      "Kit de stickers Rolling Code",
-      "Certificado de asistencia",
-      "Coffee break y networking con los speakers",
-      "Grabación de todas las charlas",
-    ],
-  },
-  {
-    id: "general",
-    name: "General",
-    badge: "Desde 11/1",
-    price: "$35,000",
-    description: "Presencial · precio regular",
-    benefits: [
-      "Acceso a las 10 charlas",
-      "Certificado de asistencia",
-      "Coffee break y networking con los speakers",
-      "Grabación de todas las charlas",
-    ],
-  },
-  {
-    id: "virtual",
-    name: "Virtual",
-    badge: "Desde donde estés",
-    price: "$15,000",
-    description: "Transmisión en vivo",
-    benefits: [
-      "Transmisión en vivo de las 10 charlas",
-      "Chat para hacer preguntas a los speakers",
-      "Certificado de asistencia",
-      "Grabación disponible por 30 días",
-    ],
-  },
-];
+import { tickets } from "../../data/eventData";
 
 function Tickets() {
   return (
