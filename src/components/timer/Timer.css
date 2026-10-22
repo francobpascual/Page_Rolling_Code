@@ -1,0 +1,261 @@
+.timer {
+  padding: 48px 24px 0;
+  background-color: var(--rc-black);
+  color: var(--rc-white);
+  font-family: var(--bs-body-font-family);
+}
+
+.timer,
+.timer *,
+.timer-floating,
+.timer-floating * {
+  box-sizing: border-box;
+}
+
+/* Bloque completo */
+.timer-panel {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center;
+  gap: 32px;
+
+  width: 100%;
+  max-width: 1200px;
+  margin-inline: auto;
+  padding: 32px;
+
+  background:
+    linear-gradient(
+      110deg,
+      rgb(110 7 12 / 18%),
+      transparent 65%
+    ),
+    var(--rc-surface);
+
+  border: 1px solid rgb(224 32 42 / 15%);
+  border-radius: 32px;
+}
+
+.timer-info {
+  min-width: 0;
+  text-align: left;
+}
+
+.timer-eyebrow {
+  margin: 0 0 8px;
+  color: var(--rc-red);
+  font-size: 16px;
+  font-weight: 800;
+  line-height: 1.4;
+  letter-spacing: 3px;
+}
+
+.timer-title {
+  margin: 0 0 8px;
+  color: var(--rc-white);
+  font-family: inherit;
+  font-size: 26px;
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -0.5px;
+}
+
+.timer-description {
+  margin: 0;
+  color: var(--rc-text-soft);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.55;
+}
+
+/* Días, horas y minutos */
+.timer-countdown {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+}
+
+.timer-unit {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  width: 100px;
+  min-height: 84px;
+  padding: 12px 8px;
+
+  background-color: var(--rc-black);
+  border: 1px solid var(--rc-border);
+  border-radius: 18px;
+
+  text-align: center;
+}
+
+.timer-unit__value {
+  color: var(--rc-white);
+  font-size: 40px;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -1px;
+  font-variant-numeric: tabular-nums;
+}
+
+.timer-unit__label {
+  margin-top: 4px;
+  color: var(--rc-text-mute);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+/* Disponibilidad */
+.timer-availability {
+  min-width: 0;
+}
+
+.timer-availability__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 10px;
+
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.timer-availability__header p {
+  margin: 0;
+  color: var(--rc-white);
+}
+
+.timer-availability__header span {
+  color: var(--rc-text-mute);
+}
+
+.timer-progress {
+  width: 100%;
+  height: 10px;
+  overflow: hidden;
+
+  background-color: var(--rc-surface-2);
+  border-radius: 999px;
+}
+
+.timer-progress__fill {
+  height: 100%;
+  background-color: var(--rc-red);
+  border-radius: inherit;
+}
+
+/* Cuenta regresiva flotante a la derecha */
+.timer-floating {
+  position: fixed;
+  top: 50%;
+  right: 16px;
+  z-index: 100;
+
+  transform: translateY(-50%);
+
+  color: var(--rc-white);
+  font-family: var(--bs-body-font-family);
+
+  animation: timer-slide-in 0.25s ease-out;
+}
+
+.timer-floating .timer-countdown {
+  flex-direction: column;
+  gap: 8px;
+}
+
+.timer-floating .timer-unit {
+  width: 76px;
+  min-height: 72px;
+  padding: 10px 6px;
+
+  border-color: rgb(224 32 42 / 45%);
+  box-shadow: 0 6px 20px rgb(0 0 0 / 25%);
+}
+
+.timer-floating .timer-unit__value {
+  font-size: 30px;
+}
+
+.timer-floating .timer-unit__label {
+  font-size: 12px;
+}
+
+@keyframes timer-slide-in {
+  from {
+    opacity: 0;
+    transform: translate(20px, -50%);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate(0, -50%);
+  }
+}
+
+/* Tablets */
+@media (max-width: 1199.98px) {
+  .timer-panel {
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 24px;
+  }
+
+  .timer-availability {
+    grid-column: 1 / -1;
+  }
+}
+
+/* Celulares */
+@media (max-width: 767.98px) {
+  .timer-panel {
+    grid-template-columns: minmax(0, 1fr);
+    padding: 24px;
+  }
+
+  .timer-availability {
+    grid-column: auto;
+  }
+
+  .timer-countdown {
+    gap: 8px;
+  }
+
+  .timer-panel .timer-unit {
+    flex: 1;
+    min-width: 0;
+    max-width: 110px;
+    width: auto;
+  }
+
+  .timer-floating {
+    right: 8px;
+  }
+
+  .timer-floating .timer-unit {
+    width: 56px;
+    min-height: 58px;
+    padding: 8px 4px;
+    border-radius: 14px;
+  }
+
+  .timer-floating .timer-unit__value {
+    font-size: 24px;
+  }
+
+  .timer-floating .timer-unit__label {
+    font-size: 10px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .timer-floating {
+    animation: none;
+  }
+}
