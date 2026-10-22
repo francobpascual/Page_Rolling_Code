@@ -102,15 +102,16 @@ function Speakers() {
           </h2>
         </header>
 
-        <div className="speakers__grid">
+        <div className="speakers__grid row row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-5 g-4">
           {speakers.map((speaker) => (
-            <SpeakerCard
-              key={speaker.id}
-              name={speaker.name}
-              image={speaker.image}
-              talkTitle={speaker.talkTitle}
-              description={speaker.description}
-            />
+            <div className="col" key={speaker.id}>
+              <SpeakerCard
+                name={speaker.name}
+                image={speaker.image}
+                talkTitle={speaker.talkTitle}
+                description={speaker.description}
+              />
+            </div>
           ))}
         </div>
       </div>

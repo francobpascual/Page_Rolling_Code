@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Playwrite+GB+J:ital,wght@0,100..400;1,100..400&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap");
+
 :root {
   --text: #6b6375;
   --text-h: #08060d;
@@ -14,6 +16,8 @@
   --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
   --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
   --mono: ui-monospace, Consolas, monospace;
+
+  --bs-body-font-family: "Plus Jakarta Sans", system-ui, sans-serif;
 
   font: 18px/145% var(--sans);
   letter-spacing: 0.18px;
@@ -326,4 +330,30 @@ h2 {
     margin-inline: 0;
     padding: 32px 24px;
   }
+}
+
+:root {
+  --rc-red: #e0202a;
+  --rc-red-dark: #a50d14;
+  --rc-red-deep: #6e070c;
+
+  --rc-black: #0b0b0c;
+  --rc-surface: #111113;
+  --rc-surface-2: #26262a;
+  --rc-border: #2c2c31;
+
+  --rc-white: #ffffff;
+  --rc-text-soft: #d4d4d8;
+  --rc-text-mute: #a1a1aa;
+
+  --rc-gradient: linear-gradient(
+    160deg,
+    #e0202a 0%,
+    #a50d14 55%,
+    #6e070c 100%
+  );
+
+  --bs-body-bg: var(--rc-black);
+  --bs-body-color: var(--rc-white);
+  --bs-body-font-family: "Plus Jakarta Sans", system-ui, sans-serif;
 }
