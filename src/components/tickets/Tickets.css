@@ -222,3 +222,11 @@
     transform: none;
   }
 }
+
+.ticket-button {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  text-decoration: none;
+}

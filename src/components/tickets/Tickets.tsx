@@ -66,9 +66,9 @@ function Tickets() {
                   ))}
                 </ul>
 
-                <button type="button" className="ticket-button">
-                  Comprar entrada
-                </button>
+                  <a href="#payment" className="ticket-button">
+                    Comprar entrada
+                  </a>
               </article>
             </div>
           ))}
