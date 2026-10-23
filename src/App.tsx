@@ -11,6 +11,7 @@ import Tickets from "./components/tickets/Tickets";
 import Navbar from "./navbar/navbar";
 import Hero from "./components/hero/Hero";
 import PaymentGateway from "./components/payment/PaymentGateway";
+import Timer from "./components/timer/Timer";
 
 function App() {
   return (
