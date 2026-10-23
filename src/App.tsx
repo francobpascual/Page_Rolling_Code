@@ -20,6 +20,7 @@ function App() {
       <Metrics />
       <Speakers />
       <Calendar />
+      <Timer />
       <Tickets />
       <PaymentGateway />
       <Sponsor />
