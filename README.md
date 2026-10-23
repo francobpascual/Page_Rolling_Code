@@ -10,7 +10,7 @@ Proyecto del Scrum Professional Bootcamp · Equipo A · Comisión 13P.
 
 ## 📸 Captura
 
-![Captura de la landing](img/captura.png)
+![Captura de la landing](file:///C:/Users/JUAN/OneDrive/Im%C3%A1genes/Screenshots/Captura%20de%20pantalla%202026-10-23%20120703.png)
 
 ## 🛠️ Tecnologías
 
