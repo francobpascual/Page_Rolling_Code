@@ -166,13 +166,15 @@
   font-variant-numeric: tabular-nums;
 }
 
-.payment-option--active {
+.payment-option--active,
+.payment-option:hover {
   background-color: var(--rc-black);
   border-color: var(--rc-black);
   color: var(--rc-white);
 }
 
-.payment-option--active .payment-option-description {
+.payment-option--active .payment-option-description,
+.payment-option:hover .payment-option-description {
   color: var(--rc-text-mute);
 }
 

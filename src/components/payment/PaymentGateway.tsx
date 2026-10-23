@@ -36,7 +36,6 @@ interface PaymentGatewayProps {
 
 function PaymentGateway({ onOpenChat }: PaymentGatewayProps) {
   const [selectedId, setSelectedId] = useState("early");
-  const [previewId, setPreviewId] = useState<string | null>(null);
   const [quantity, setQuantity] = useState(0);
   const [step, setStep] = useState(0);
 
@@ -49,11 +48,8 @@ function PaymentGateway({ onOpenChat }: PaymentGatewayProps) {
   const purchased = step === 3;
   const hasTickets = quantity > 0;
 
-  const visibleId =
-    step === 0 ? previewId ?? selectedId : selectedId;
-
   const currentTicket =
-    ticketOptions.find((ticket) => ticket.id === visibleId) ??
+    ticketOptions.find((ticket) => ticket.id === selectedId) ??
     ticketOptions[0];
 
   const subtotal = currentTicket.price * quantity;
@@ -65,7 +61,7 @@ function PaymentGateway({ onOpenChat }: PaymentGatewayProps) {
 
     const timeoutId = window.setTimeout(() => {
       setShowHelp(true);
-    }, 10_000);
+    }, 20_000);
 
     return () => window.clearTimeout(timeoutId);
   }, [selectedId, hasTickets, purchased]);
@@ -109,7 +105,6 @@ function PaymentGateway({ onOpenChat }: PaymentGatewayProps) {
   function goToStep(nextStep: number) {
     if (nextStep > 0 && !hasTickets) return;
 
-    setPreviewId(null);
     setStep(nextStep);
   }
 
@@ -175,12 +170,10 @@ function PaymentGateway({ onOpenChat }: PaymentGatewayProps) {
                       <label
                         key={ticket.id}
                         className={`payment-option${
-                          visibleId === ticket.id
+                          selectedId === ticket.id
                             ? " payment-option--active"
                             : ""
                         }`}
-                        onMouseEnter={() => setPreviewId(ticket.id)}
-                        onMouseLeave={() => setPreviewId(null)}
                       >
                         <input
                           className="payment-option-input"
@@ -189,7 +182,6 @@ function PaymentGateway({ onOpenChat }: PaymentGatewayProps) {
                           value={ticket.id}
                           checked={selectedId === ticket.id}
                           onChange={() => selectTicket(ticket.id)}
-                          onFocus={() => setPreviewId(null)}
                         />
 
                         <span className="payment-option-content">
