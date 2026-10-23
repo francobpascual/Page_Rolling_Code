@@ -521,3 +521,13 @@
     animation: none;
   }
 }
+@media (max-width: 575.98px) {
+  .chatbot {
+    right: 16px;
+    bottom: 64px;
+  }
+
+  .chatbot-panel {
+    max-height: min(660px, calc(100dvh - 180px));
+  }
+}

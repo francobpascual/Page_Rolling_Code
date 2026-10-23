@@ -187,3 +187,28 @@
     transition: none;
   }
 }
+
+@media (max-width: 991.98px) {
+  .site-navbar__menu {
+    padding: 16px 24px 8px;
+  }
+
+  .site-navbar__links {
+    width: 100%;
+    align-items: stretch;
+  }
+
+  .site-navbar__link {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    padding: 12px 0;
+    text-align: center;
+  }
+
+  .site-navbar__button {
+    width: 100%;
+    justify-content: center;
+    text-align: center;
+  }
+}
