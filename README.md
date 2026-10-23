@@ -1,78 +1,73 @@
-# React + TypeScript + Vite
+# 🎟️ Landing · Workshop "¿Por dónde empiezo a programar?"
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Landing page para vender las entradas del workshop de Rolling Code School.
 
-Currently, two official plugins are available:
+Proyecto del Scrum Professional Bootcamp · Equipo A · Comisión 13P.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## 🌐 Demo
 
-## React Compiler
+👉 [Ver la página online](https://page-rolling-code.vercel.app)
 
-The React Compiler is enabled on this template. See [this documentation](https://react.dev/learn/react-compiler) for more information.
+## 📸 Captura
 
-Note: This will impact Vite dev & build performances.
-You can also try [the experimental native React Compiler support in plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md#rust-react-compiler) by using `compiler: true` in the plugin options instead of using the Babel plugin.
+![Captura de la landing](img/captura.png)
 
-## Expanding the ESLint configuration
+## 🛠️ Tecnologías
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- React
+- TypeScript
+- React Bootstrap y Bootstrap 5.3
+- CSS3
+- Vite
+- ESLint
+- Git y GitHub
+- Deploy: GitHub Pages
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## 📁 Estructura
 
 ```
-
-You can also install [eslint-plugin-react-x](https://npmx.dev/package/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://npmx.dev/package/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
+landing-workshop/
+├── src/
+│   ├── components/   un componente por carpeta (.tsx y .css)
+│   ├── assets/       imágenes e íconos
+│   ├── App.tsx
+│   ├── main.tsx
+│   └── index.css     variables y estilos globales
+├── img/              captura del README
+├── index.html
+├── package.json
+├── CONTRIBUTING.md
+├── DESIGN.md
+├── FOLDER_STRUCTURE.md
+└── README.md
 ```
+
+## 🚀 Cómo verlo en local
+
+1. Clonar el repo: `git clone LINK-DEL-REPO`
+2. Entrar a la carpeta: `cd landing-workshop`
+3. Instalar las dependencias: `npm install`
+4. Levantar el proyecto: `npm run dev`
+5. Abrir en el navegador la dirección que aparece en la terminal (normalmente `http://localhost:5173`)
+
+Otros comandos:
+
+- `npm run lint` revisa el código con ESLint
+- `npm run build` genera la versión final en `dist/`
+
+## 👥 Equipo
+
+| Integrante | Rol |
+|---|---|
+| Franco Benjamin Pascual | Developer |
+| Juan Manuel Saravia  | Developer |
+
+**Scrum Masters:** Marisol Lamas · Juan Barrientos
+
+## 📋 Tablero
+
+[Ver tablero en Trello](https://trello.com/b/LZN6bvBc/a-scrum-proyecto-web-grupo-a)
+
+## 🤝 Cómo colaborar
+
+Las reglas de ramas, commits y Pull Requests están en [CONTRIBUTING.md](CONTRIBUTING.md). La guía de estilo está en [DESIGN.md](DESIGN.md).
