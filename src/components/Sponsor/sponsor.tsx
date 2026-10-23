@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
@@ -22,6 +22,8 @@ const DEFAULT_VALUES: SponsorFormInput = {
 function Sponsor() {
   const [sent, setSent] = useState(false);
   const [dragging, setDragging] = useState(false);
+  const [submitError, setSubmitError] = useState(false);
+  const formRef = useRef<HTMLFormElement>(null);
   const {
     register,
     control,
@@ -35,8 +37,11 @@ function Sponsor() {
   });
 
   const onSubmit = () => {
-    setSent(true);
     reset(DEFAULT_VALUES);
+    formRef.current?.reset();
+    setDragging(false);
+    setSubmitError(false);
+    setSent(true);
   };
 
   const fieldProps = (name: keyof SponsorFormInput) => ({
@@ -65,9 +70,16 @@ function Sponsor() {
         </header>
 
         <form
+          ref={formRef}
           className="sponsor-card"
-          onSubmit={handleSubmit(onSubmit)}
-          onChange={() => setSent(false)}
+          onSubmit={handleSubmit(onSubmit, () => {
+            setSubmitError(true);
+            setSent(false);
+          })}
+          onChange={() => {
+            setSent(false);
+            setSubmitError(false);
+          }}
           noValidate
         >
           <div className="row g-4">
@@ -198,6 +210,7 @@ function Sponsor() {
                       e.preventDefault();
                       setDragging(false);
                       setSent(false);
+                      setSubmitError(false);
                       field.onChange(e.dataTransfer.files[0]);
                     }}
                   >
@@ -272,6 +285,11 @@ function Sponsor() {
                 </svg>
                 Enviar postulación de Sponsor
               </button>
+              {submitError && (
+                <p className="sponsor-error" role="alert">
+                  Revisá los campos señalados antes de enviar.
+                </p>
+              )}
               {sent && (
                 <p className="sponsor-success" role="status">
                   ¡Gracias! Recibimos tu postulación. Nos contactaremos en menos
