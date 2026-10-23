@@ -10,9 +10,7 @@ import Sponsors from "./components/Sponsors/sponsors";
 import Tickets from "./components/tickets/Tickets";
 import Navbar from "./navbar/navbar";
 import Hero from "./components/hero/Hero";
-
-
-
+import PaymentGateway from "./components/payment/PaymentGateway";
 
 function App() {
   return (
@@ -23,6 +21,7 @@ function App() {
       <Speakers />
       <Calendar />
       <Tickets />
+      <PaymentGateway />
       <Sponsor />
       <Sponsors />
       <Contact />
