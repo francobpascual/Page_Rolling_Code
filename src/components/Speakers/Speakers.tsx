@@ -1,12 +1,22 @@
 import SpeakerCard from "./SpeakersCard";
 import "./Speakers.css";
+import speaker6 from "../../assets/photos/speaker6.jpg";
+import speaker5 from "../../assets/photos/speaker5.jpg";
+import speaker2 from "../../assets/photos/speaker2.jpg";
+import speaker3 from "../../assets/photos/speaker3.jpg";
+import speaker1 from "../../assets/photos/speaker1.jpg";
+import speaker0 from "../../assets/photos/speaker0.png";
+import speaker7 from "../../assets/photos/speaker7.png";
+import speaker8 from "../../assets/photos/speaker8.png";
+import speaker9 from "../../assets/photos/speaker9.png";
+import speaker10 from "../../assets/photos/speaker10.png";
 
 
 const speakers = [
   {
     id: "tomas-escudero",
     name: "Tomas Escudero",
-    image: "/images/speakers/tomas-escudero.jpg",
+    image: speaker7,  
     talkTitle: "Diseño para developers",
     description:
       "Qué mira un equipo de diseño antes de que escribas código y cómo leer un mockup para construirlo igual.",
@@ -15,7 +25,7 @@ const speakers = [
   {
     id: "franco-diaz",
     name: "Franco Diaz",
-    image: "/images/speakers/franco-diaz.jpg",
+    image: speaker2 ,
     talkTitle: "De cero a tu primer proyecto",
     description:
       "Un recorrido para pasar de mirar tutoriales a terminar una app simple con HTML, JavaScript y React.",
@@ -23,7 +33,7 @@ const speakers = [
   {
     id: "gaston",
     name: "Gaston",
-    image: "/images/speakers/gaston.jpg",
+    image: speaker8,
     talkTitle: "Armá tu portfolio con IA",
     description:
       "Cómo usar asistentes de IA para construir y publicar un portfolio que muestre lo que sabés hacer.",
@@ -31,7 +41,7 @@ const speakers = [
   {
     id: "mauro",
     name: "Mauro",
-    image: "/images/speakers/mauro.jpg",
+    image: speaker9,
     talkTitle: "Git y GitHub sin miedo",
     description:
       "Los comandos que vas a usar todos los días y cómo trabajar en equipo sin pisar el código de otros.",
@@ -39,7 +49,7 @@ const speakers = [
   {
     id: "jose-diaz",
     name: "Jose Diaz",
-    image: "/images/speakers/jose-diaz.jpg",
+    image: speaker3,
     talkTitle: "Tu primer backend con Node",
     description:
       "Cómo se arma una API, qué hace una base de datos y por dónde empezar para conectar todo.",
@@ -47,7 +57,7 @@ const speakers = [
   {
     id: "tomas-gomez",
     name: "Tomas Gomez",
-    image: "/images/speakers/tomas-gomez.jpg",
+    image: speaker6,  
     talkTitle: "Preparate para tu primera entrevista",
     description:
       "Qué preguntan en una entrevista técnica, cómo practicar y cómo contar tus proyectos con claridad.",
@@ -55,7 +65,7 @@ const speakers = [
   {
     id: "pablo-basso",
     name: "Pablo Basso",
-    image: "/images/speakers/pablo-basso.jpg",
+    image: speaker5,
     talkTitle: "Mi primer trabajo en IT",
     description:
       "Una charla en primera persona sobre cómo se consigue el primer puesto y qué se aprende en los primeros meses.",
@@ -63,7 +73,7 @@ const speakers = [
   {
     id: "julian-martin",
     name: "Julian Martin",
-    image: "/images/speakers/julian-martin.jpg",
+    image: speaker0 ,
     talkTitle: "Testing: cómo no romper todo",
     description:
       "Qué es testear, por qué importa y cómo escribir tus primeras pruebas sin complicarte.",
@@ -71,7 +81,7 @@ const speakers = [
   {
     id: "daniela-cardozo",
     name: "Daniela Cardozo",
-    image: "/images/speakers/daniela-cardozo.jpg",
+    image: speaker1,
     talkTitle: "Tu primer día como developer",
     description:
       "Qué esperar de tu primera semana en un equipo, qué herramientas usar y cómo pedir ayuda sin miedo.",
@@ -79,7 +89,7 @@ const speakers = [
   {
     id: "andres-perlo",
     name: "Andres Perlo",
-    image: "/images/speakers/andres-perlo.jpg",
+    image: speaker10,
     talkTitle: "Tu primera base de datos",
     description:
       "Qué es una base de datos, para qué sirve y cómo guardar y consultar tus primeros datos.",
