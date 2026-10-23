@@ -10,10 +10,7 @@ import Sponsors from "./components/Sponsors/sponsors";
 import Tickets from "./components/tickets/Tickets";
 import Navbar from "./navbar/navbar";
 import Hero from "./components/hero/Hero";
-import Timer from "./components/timer/Timer";
-
-
-
+import PaymentGateway from "./components/payment/PaymentGateway";
 
 function App() {
   return (
@@ -25,6 +22,7 @@ function App() {
       <Calendar />
       <Timer />
       <Tickets />
+      <PaymentGateway />
       <Sponsor />
       <Sponsors />
       <Contact />
