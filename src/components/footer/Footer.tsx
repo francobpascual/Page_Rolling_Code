@@ -11,10 +11,10 @@ import xIcon from "../../assets/icons/x.svg";
 import githubIcon from "../../assets/icons/github.svg";
 
 const socialLinks = [
-  { id: "instagram", name: "Instagram", icon: instagramIcon },
-  { id: "facebook", name: "Facebook", icon: facebookIcon },
-  { id: "linkedin", name: "LinkedIn", icon: linkedinIcon },
-  { id: "youtube", name: "YouTube", icon: youtubeIcon },
+  { id: "instagram", name: "Instagram", icon: instagramIcon, url: "https://www.instagram.com/rollingcodeschool/?hl=es"},
+  { id: "facebook", name: "Facebook", icon: facebookIcon ,url: "https://www.facebook.com/RollingCodeSchool/?locale=es_LA"},
+  { id: "linkedin", name: "LinkedIn", icon: linkedinIcon , url:"https://www.linkedin.com/school/rollingcodeschool/home/" },
+  { id: "youtube", name: "YouTube", icon: youtubeIcon ,url:"https://www.youtube.com/@rollingcode7175" },
   { id: "x", name: "X", icon: xIcon },
   { id: "github", name: "GitHub", icon: githubIcon },
 ];
@@ -40,7 +40,9 @@ function Footer() {
             <a
               key={social.id}
               className="footer__social-link"
-              href={`#${social.id}`}
+              href={social.url}
+                target="_blank"
+                rel="noopener noreferrer"
               aria-label={social.name}
             >
               <img
