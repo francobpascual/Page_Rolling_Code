@@ -1,9 +1,11 @@
+import { useRef, useState } from "react";
 import "./App.css";
+
 import Calendar from "./components/Calendar/Calendar";
 import Chatbot from "./components/Chatbot/Chatbot";
 import Contact from "./components/contact/Contact";
-import Speakers from './components/Speakers/Speakers';
-import Footer from './components/footer/Footer';
+import Speakers from "./components/Speakers/Speakers";
+import Footer from "./components/footer/Footer";
 import Metrics from "./components/Metrics/metricas";
 import Sponsor from "./components/Sponsor/sponsor";
 import Sponsors from "./components/Sponsors/sponsors";
@@ -13,7 +15,41 @@ import Hero from "./components/hero/Hero";
 import PaymentGateway from "./components/payment/PaymentGateway";
 import Timer from "./components/timer/Timer";
 
+const TOTAL_EARLY_TICKETS = 60;
+const INITIAL_REMAINING_TICKETS = 38;
+
 function App() {
+  const [remainingEarlyTickets, setRemainingEarlyTickets] = useState(
+    INITIAL_REMAINING_TICKETS
+  );
+
+  const remainingTicketsRef = useRef(INITIAL_REMAINING_TICKETS);
+
+  function handlePurchase(ticketId: string, quantity: number): boolean {
+    if (!Number.isInteger(quantity) || quantity <= 0) {
+      return false;
+    }
+
+    if (ticketId === "general" || ticketId === "virtual") {
+      return true;
+    }
+
+    if (ticketId !== "early") {
+      return false;
+    }
+
+    if (quantity > remainingTicketsRef.current) {
+      return false;
+    }
+
+    const newRemainingTickets = remainingTicketsRef.current - quantity;
+
+    remainingTicketsRef.current = newRemainingTickets;
+    setRemainingEarlyTickets(newRemainingTickets);
+
+    return true;
+  }
+
   return (
     <>
       <Navbar />
@@ -21,16 +57,24 @@ function App() {
       <Metrics />
       <Speakers />
       <Calendar />
-      <Timer />
+
+      <Timer
+        totalTickets={TOTAL_EARLY_TICKETS}
+        remainingTickets={remainingEarlyTickets}
+      />
+
       <Tickets />
-      <PaymentGateway />
+
+      <PaymentGateway
+        remainingEarlyTickets={remainingEarlyTickets}
+        onPurchase={handlePurchase}
+      />
+
       <Sponsor />
       <Sponsors />
       <Contact />
       <Footer />
       <Chatbot />
-      
-      
     </>
   );
 }
