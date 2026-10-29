@@ -42,18 +42,20 @@ function PaymentGateway({
   onOpenChat,
 }: PaymentGatewayProps) {
   const [selectedId, setSelectedId] = useState("early");
-  const [quantity, setQuantity] = useState(0);
-  const [step, setStep] = useState(0);
 
+  // Se guarda como texto para permitir borrar el campo mientras se escribe.
+  const [quantityInput, setQuantityInput] = useState("0");
+
+  const [step, setStep] = useState(0);
   const [customerName, setCustomerName] = useState("");
   const [customerEmail, setCustomerEmail] = useState("");
-
   const [showHelp, setShowHelp] = useState(false);
   const [purchaseError, setPurchaseError] = useState("");
 
   const helpDialogRef = useRef<HTMLDialogElement>(null);
   const purchaseCompletedRef = useRef(false);
 
+  const quantity = Number(quantityInput);
   const purchased = step === 3;
   const hasTickets = quantity > 0;
   const isEarlyBird = selectedId === "early";
@@ -68,7 +70,8 @@ function PaymentGateway({
   const canContinue = hasTickets && hasEnoughStock;
 
   const canIncreaseQuantity =
-    !isEarlyBird || quantity < remainingEarlyTickets;
+    Number.isSafeInteger(quantity + 1) &&
+    (!isEarlyBird || quantity < remainingEarlyTickets);
 
   const subtotal = currentTicket.price * quantity;
   const serviceFee = Math.round(subtotal * 0.05);
@@ -105,6 +108,37 @@ function PaymentGateway({
     };
   }, [showHelp, purchased]);
 
+  function updateQuantity(value: number) {
+    if (!Number.isSafeInteger(value)) return;
+
+    const nextQuantity = Math.max(0, value);
+
+    const limitedQuantity = isEarlyBird
+      ? Math.min(nextQuantity, remainingEarlyTickets)
+      : nextQuantity;
+
+    setQuantityInput(String(limitedQuantity));
+    setPurchaseError("");
+
+    if (limitedQuantity === 0) {
+      setShowHelp(false);
+    }
+  }
+
+  function handleQuantityChange(value: string) {
+    // Permite únicamente números enteros positivos o el campo vacío.
+    if (!/^\d*$/.test(value)) return;
+
+    if (value === "") {
+      setQuantityInput("");
+      setPurchaseError("");
+      setShowHelp(false);
+      return;
+    }
+
+    updateQuantity(Number(value));
+  }
+
   function selectTicket(id: string) {
     if (id === "early" && remainingEarlyTickets === 0) return;
     if (id === selectedId) return;
@@ -114,29 +148,18 @@ function PaymentGateway({
     setSelectedId(id);
 
     if (id === "early") {
-      setQuantity((value) => Math.min(value, remainingEarlyTickets));
+      setQuantityInput(
+        String(Math.min(quantity, remainingEarlyTickets))
+      );
     }
   }
 
   function increaseQuantity() {
-    setPurchaseError("");
-
-    setQuantity((value) => {
-      if (isEarlyBird) {
-        return Math.min(value + 1, remainingEarlyTickets);
-      }
-
-      return value + 1;
-    });
+    updateQuantity(quantity + 1);
   }
 
   function decreaseQuantity() {
-    setPurchaseError("");
-    setQuantity((value) => Math.max(0, value - 1));
-
-    if (quantity <= 1) {
-      setShowHelp(false);
-    }
+    updateQuantity(quantity - 1);
   }
 
   function goToStep(nextStep: number) {
@@ -171,7 +194,6 @@ function PaymentGateway({
       setPurchaseError(
         "No se pudo completar la compra. Revisá la cantidad de entradas disponibles."
       );
-
       return;
     }
 
@@ -184,7 +206,7 @@ function PaymentGateway({
     purchaseCompletedRef.current = false;
 
     setSelectedId(remainingEarlyTickets > 0 ? "early" : "general");
-    setQuantity(0);
+    setQuantityInput("0");
     setCustomerName("");
     setCustomerEmail("");
     setPurchaseError("");
@@ -255,7 +277,7 @@ function PaymentGateway({
                             selectedId === ticket.id
                               ? " payment-option--active"
                               : ""
-                          }`}
+                          }${isSoldOut ? " payment-option--disabled" : ""}`}
                         >
                           <input
                             className="payment-option-input"
@@ -288,7 +310,11 @@ function PaymentGateway({
                   </fieldset>
 
                   {isEarlyBird && (
-                    <p className="payment-summary-note" aria-live="polite">
+                    <p
+                      id="payment-stock"
+                      className="payment-stock"
+                      aria-live="polite"
+                    >
                       {remainingEarlyTickets > 0
                         ? `Quedan ${remainingEarlyTickets} entradas Early Bird disponibles.`
                         : "Las entradas Early Bird están agotadas. Elegí otra opción."}
@@ -296,7 +322,12 @@ function PaymentGateway({
                   )}
 
                   <div className="payment-quantity">
-                    <span id="payment-quantity-label">Cantidad</span>
+                    <label
+                      id="payment-quantity-label"
+                      htmlFor="payment-quantity"
+                    >
+                      Cantidad
+                    </label>
 
                     <div
                       className="payment-quantity-controls"
@@ -313,13 +344,29 @@ function PaymentGateway({
                         −
                       </button>
 
-                      <output
+                      <input
+                        id="payment-quantity"
                         className="payment-quantity-value"
-                        aria-live="polite"
-                        aria-label="Cantidad de entradas"
-                      >
-                        {quantity}
-                      </output>
+                        type="text"
+                        inputMode="numeric"
+                        pattern="[0-9]*"
+                        autoComplete="off"
+                        value={quantityInput}
+                        aria-describedby={
+                          isEarlyBird ? "payment-stock" : undefined
+                        }
+                        onChange={(event) =>
+                          handleQuantityChange(event.target.value)
+                        }
+                        onFocus={(event) =>
+                          event.currentTarget.select()
+                        }
+                        onBlur={() => {
+                          if (quantityInput === "") {
+                            setQuantityInput("0");
+                          }
+                        }}
+                      />
 
                       <button
                         type="button"
@@ -448,7 +495,7 @@ function PaymentGateway({
               )}
 
               {purchaseError && (
-                <p className="payment-summary-note" role="alert">
+                <p className="payment-error" role="alert">
                   {purchaseError}
                 </p>
               )}
