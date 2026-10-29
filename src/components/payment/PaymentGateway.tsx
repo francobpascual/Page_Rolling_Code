@@ -31,26 +31,44 @@ const currency = new Intl.NumberFormat("es-AR", {
 });
 
 interface PaymentGatewayProps {
+  remainingEarlyTickets: number;
+  onPurchase: (ticketId: string, quantity: number) => boolean;
   onOpenChat?: () => void;
 }
 
-function PaymentGateway({ onOpenChat }: PaymentGatewayProps) {
+function PaymentGateway({
+  remainingEarlyTickets,
+  onPurchase,
+  onOpenChat,
+}: PaymentGatewayProps) {
   const [selectedId, setSelectedId] = useState("early");
   const [quantity, setQuantity] = useState(0);
   const [step, setStep] = useState(0);
 
   const [customerName, setCustomerName] = useState("");
   const [customerEmail, setCustomerEmail] = useState("");
+
   const [showHelp, setShowHelp] = useState(false);
+  const [purchaseError, setPurchaseError] = useState("");
 
   const helpDialogRef = useRef<HTMLDialogElement>(null);
+  const purchaseCompletedRef = useRef(false);
 
   const purchased = step === 3;
   const hasTickets = quantity > 0;
+  const isEarlyBird = selectedId === "early";
 
   const currentTicket =
     ticketOptions.find((ticket) => ticket.id === selectedId) ??
     ticketOptions[0];
+
+  const hasEnoughStock =
+    !isEarlyBird || quantity <= remainingEarlyTickets;
+
+  const canContinue = hasTickets && hasEnoughStock;
+
+  const canIncreaseQuantity =
+    !isEarlyBird || quantity < remainingEarlyTickets;
 
   const subtotal = currentTicket.price * quantity;
   const serviceFee = Math.round(subtotal * 0.05);
@@ -88,13 +106,32 @@ function PaymentGateway({ onOpenChat }: PaymentGatewayProps) {
   }, [showHelp, purchased]);
 
   function selectTicket(id: string) {
-    if (id !== selectedId) {
-      setShowHelp(false);
-      setSelectedId(id);
+    if (id === "early" && remainingEarlyTickets === 0) return;
+    if (id === selectedId) return;
+
+    setShowHelp(false);
+    setPurchaseError("");
+    setSelectedId(id);
+
+    if (id === "early") {
+      setQuantity((value) => Math.min(value, remainingEarlyTickets));
     }
   }
 
+  function increaseQuantity() {
+    setPurchaseError("");
+
+    setQuantity((value) => {
+      if (isEarlyBird) {
+        return Math.min(value + 1, remainingEarlyTickets);
+      }
+
+      return value + 1;
+    });
+  }
+
   function decreaseQuantity() {
+    setPurchaseError("");
     setQuantity((value) => Math.max(0, value - 1));
 
     if (quantity <= 1) {
@@ -103,16 +140,56 @@ function PaymentGateway({ onOpenChat }: PaymentGatewayProps) {
   }
 
   function goToStep(nextStep: number) {
-    if (nextStep > 0 && !hasTickets) return;
+    if (nextStep > 0 && !canContinue) return;
 
+    setPurchaseError("");
     setStep(nextStep);
   }
 
   function completePurchase() {
-    if (!hasTickets) return;
+    if (purchaseCompletedRef.current) return;
 
+    if (!hasTickets) {
+      setPurchaseError("Seleccioná al menos una entrada.");
+      return;
+    }
+
+    if (!hasEnoughStock) {
+      setPurchaseError(
+        `Quedan ${remainingEarlyTickets} entradas Early Bird. Volvé a las entradas para ajustar la cantidad.`
+      );
+      return;
+    }
+
+    purchaseCompletedRef.current = true;
+
+    const purchaseAccepted = onPurchase(selectedId, quantity);
+
+    if (!purchaseAccepted) {
+      purchaseCompletedRef.current = false;
+
+      setPurchaseError(
+        "No se pudo completar la compra. Revisá la cantidad de entradas disponibles."
+      );
+
+      return;
+    }
+
+    setPurchaseError("");
     setShowHelp(false);
-    goToStep(3);
+    setStep(3);
+  }
+
+  function startNewPurchase() {
+    purchaseCompletedRef.current = false;
+
+    setSelectedId(remainingEarlyTickets > 0 ? "early" : "general");
+    setQuantity(0);
+    setCustomerName("");
+    setCustomerEmail("");
+    setPurchaseError("");
+    setShowHelp(false);
+    setStep(0);
   }
 
   function closeHelp() {
@@ -166,40 +243,57 @@ function PaymentGateway({ onOpenChat }: PaymentGatewayProps) {
                       Elegí tu entrada
                     </legend>
 
-                    {ticketOptions.map((ticket) => (
-                      <label
-                        key={ticket.id}
-                        className={`payment-option${
-                          selectedId === ticket.id
-                            ? " payment-option--active"
-                            : ""
-                        }`}
-                      >
-                        <input
-                          className="payment-option-input"
-                          type="radio"
-                          name="ticket"
-                          value={ticket.id}
-                          checked={selectedId === ticket.id}
-                          onChange={() => selectTicket(ticket.id)}
-                        />
+                    {ticketOptions.map((ticket) => {
+                      const isSoldOut =
+                        ticket.id === "early" &&
+                        remainingEarlyTickets === 0;
 
-                        <span className="payment-option-content">
-                          <span className="payment-option-name">
-                            {ticket.name}
+                      return (
+                        <label
+                          key={ticket.id}
+                          className={`payment-option${
+                            selectedId === ticket.id
+                              ? " payment-option--active"
+                              : ""
+                          }`}
+                        >
+                          <input
+                            className="payment-option-input"
+                            type="radio"
+                            name="ticket"
+                            value={ticket.id}
+                            checked={selectedId === ticket.id}
+                            disabled={isSoldOut}
+                            onChange={() => selectTicket(ticket.id)}
+                          />
+
+                          <span className="payment-option-content">
+                            <span className="payment-option-name">
+                              {ticket.name}
+                            </span>
+
+                            <span className="payment-option-description">
+                              {isSoldOut
+                                ? "Entradas agotadas"
+                                : ticket.description}
+                            </span>
                           </span>
 
-                          <span className="payment-option-description">
-                            {ticket.description}
+                          <span className="payment-option-price">
+                            {currency.format(ticket.price)}
                           </span>
-                        </span>
-
-                        <span className="payment-option-price">
-                          {currency.format(ticket.price)}
-                        </span>
-                      </label>
-                    ))}
+                        </label>
+                      );
+                    })}
                   </fieldset>
+
+                  {isEarlyBird && (
+                    <p className="payment-summary-note" aria-live="polite">
+                      {remainingEarlyTickets > 0
+                        ? `Quedan ${remainingEarlyTickets} entradas Early Bird disponibles.`
+                        : "Las entradas Early Bird están agotadas. Elegí otra opción."}
+                    </p>
+                  )}
 
                   <div className="payment-quantity">
                     <span id="payment-quantity-label">Cantidad</span>
@@ -231,7 +325,8 @@ function PaymentGateway({ onOpenChat }: PaymentGatewayProps) {
                         type="button"
                         className="payment-quantity-button"
                         aria-label="Sumar una entrada"
-                        onClick={() => setQuantity((value) => value + 1)}
+                        disabled={!canIncreaseQuantity}
+                        onClick={increaseQuantity}
                       >
                         +
                       </button>
@@ -241,7 +336,7 @@ function PaymentGateway({ onOpenChat }: PaymentGatewayProps) {
                   <button
                     type="button"
                     className="payment-button"
-                    disabled={!hasTickets}
+                    disabled={!canContinue}
                     onClick={() => goToStep(1)}
                   >
                     Continuar
@@ -267,7 +362,7 @@ function PaymentGateway({ onOpenChat }: PaymentGatewayProps) {
                       autoComplete="name"
                       required
                       minLength={3}
-                      pattern=".*\S.*"
+                      pattern={".*\\S.*"}
                       title="Ingresá tu nombre y apellido."
                       value={customerName}
                       onChange={(event) =>
@@ -290,7 +385,11 @@ function PaymentGateway({ onOpenChat }: PaymentGatewayProps) {
                     />
                   </label>
 
-                  <button type="submit" className="payment-button">
+                  <button
+                    type="submit"
+                    className="payment-button"
+                    disabled={!canContinue}
+                  >
                     Continuar
                   </button>
 
@@ -337,19 +436,52 @@ function PaymentGateway({ onOpenChat }: PaymentGatewayProps) {
                   >
                     Volver a mis datos
                   </button>
+
+                  <button
+                    type="button"
+                    className="payment-back"
+                    onClick={() => goToStep(0)}
+                  >
+                    Cambiar entradas
+                  </button>
                 </div>
               )}
 
-              {step === 3 && (
-                <div className="payment-confirmation" role="status">
-                  <h3 className="payment-card-title">
-                    ¡Simulación completada!
-                  </h3>
+              {purchaseError && (
+                <p className="payment-summary-note" role="alert">
+                  {purchaseError}
+                </p>
+              )}
 
-                  <p>
-                    Gracias, {customerName}. No se realizó ningún cobro
-                    ni se enviaron entradas.
-                  </p>
+              {step === 3 && (
+                <div className="payment-confirmation">
+                  <div role="status">
+                    <h3 className="payment-card-title">
+                      ¡Simulación completada!
+                    </h3>
+
+                    <p>
+                      Gracias, {customerName}. No se realizó ningún cobro
+                      ni se enviaron entradas.
+                    </p>
+
+                    {isEarlyBird && (
+                      <p>
+                        Descontamos {quantity}{" "}
+                        {quantity === 1 ? "entrada" : "entradas"} Early Bird
+                        del contador de demostración. Quedan{" "}
+                        {remainingEarlyTickets} disponibles.
+                      </p>
+                    )}
+                  </div>
+
+                  <button
+                    type="button"
+                    className="payment-button"
+                    onClick={startNewPurchase}
+                  >
+                    Comprar más entradas
+                  </button>
                 </div>
               )}
 
@@ -401,7 +533,13 @@ function PaymentGateway({ onOpenChat }: PaymentGatewayProps) {
                   strokeWidth="2"
                   aria-hidden="true"
                 >
-                  <rect x="5" y="10" width="14" height="11" rx="2" />
+                  <rect
+                    x="5"
+                    y="10"
+                    width="14"
+                    height="11"
+                    rx="2"
+                  />
                   <path d="M8 10V7a4 4 0 0 1 8 0v3" />
                 </svg>
 
@@ -446,8 +584,8 @@ function PaymentGateway({ onOpenChat }: PaymentGatewayProps) {
               id="payment-help-description"
               className="payment-help-modal__description"
             >
-              Podés consultar al chatbot para resolver tus dudas
-              antes de comprar.
+              Podés consultar al chatbot para resolver tus dudas antes
+              de comprar.
             </p>
 
             <div className="payment-help-modal__actions">

@@ -3,12 +3,16 @@ import "./Timer.css";
 
 const deadline = new Date("2026-11-01T00:00:00-03:00").getTime();
 
-const totalTickets = 60;
-const remainingTickets = 38;
+interface TimerProps {
+  totalTickets: number;
+  remainingTickets: number;
+}
 
-const soldPercentage = Math.round(
-  ((totalTickets - remainingTickets) / totalTickets) * 100
-);
+interface CountdownProps {
+  days: number;
+  hours: number;
+  minutes: number;
+}
 
 function getRemainingTime() {
   const difference = Math.max(0, deadline - Date.now());
@@ -19,12 +23,6 @@ function getRemainingTime() {
     minutes: Math.floor((difference / (1000 * 60)) % 60),
     expired: difference === 0,
   };
-}
-
-interface CountdownProps {
-  days: number;
-  hours: number;
-  minutes: number;
 }
 
 function Countdown({ days, hours, minutes }: CountdownProps) {
@@ -53,11 +51,24 @@ function Countdown({ days, hours, minutes }: CountdownProps) {
   );
 }
 
-function Timer() {
+function Timer({ totalTickets, remainingTickets }: TimerProps) {
   const sectionRef = useRef<HTMLElement>(null);
 
   const [timeLeft, setTimeLeft] = useState(getRemainingTime);
   const [isFloating, setIsFloating] = useState(false);
+
+  const soldPercentage =
+    totalTickets > 0
+      ? Math.min(
+          100,
+          Math.max(
+            0,
+            Math.round(
+              ((totalTickets - remainingTickets) / totalTickets) * 100
+            )
+          )
+        )
+      : 0;
 
   useEffect(() => {
     const intervalId = window.setInterval(() => {
@@ -74,7 +85,6 @@ function Timer() {
 
     const observer = new IntersectionObserver(
       ([entry]) => {
-        // Se activa solamente cuando el bloque quedó arriba de la pantalla.
         setIsFloating(
           !entry.isIntersecting && entry.boundingClientRect.bottom <= 0
         );
@@ -99,13 +109,15 @@ function Timer() {
             <p className="timer-eyebrow">EARLY BIRD</p>
 
             <h2 id="timer-title" className="timer-title">
-              {timeLeft.expired
-                ? "Terminó el precio especial"
-                : "El precio especial termina el 31/10"}
+              {remainingTickets === 0
+                ? "¡Entradas Early Bird agotadas!"
+                : timeLeft.expired
+                  ? "Terminó el precio especial"
+                  : "El precio especial termina el 31/10"}
             </h2>
 
             <p className="timer-description">
-              {timeLeft.expired
+              {remainingTickets === 0 || timeLeft.expired
                 ? "Consultá las entradas disponibles."
                 : "Después la entrada pasa de $25.000 a $35.000."}
             </p>
@@ -114,8 +126,14 @@ function Timer() {
           <Countdown {...timeLeft} />
 
           <div className="timer-availability">
-            <div className="timer-availability__header">
-              <p>Quedan {remainingTickets} de {totalTickets} Early Bird</p>
+            <div
+              className="timer-availability__header"
+              aria-live="polite"
+              aria-atomic="true"
+            >
+              <p>
+                Quedan {remainingTickets} de {totalTickets} Early Bird
+              </p>
 
               <span>{soldPercentage}% vendidas</span>
             </div>
@@ -137,7 +155,7 @@ function Timer() {
         </div>
       </section>
 
-      {isFloating && !timeLeft.expired && (
+      {isFloating && !timeLeft.expired && remainingTickets > 0 && (
         <aside
           className="timer-floating"
           aria-label="Tiempo restante del precio Early Bird"
