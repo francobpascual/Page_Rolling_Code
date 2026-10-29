@@ -31,24 +31,25 @@ const currency = new Intl.NumberFormat("es-AR", {
 });
 
 interface PaymentGatewayProps {
+  initialTicketId?: string;
   remainingEarlyTickets: number;
   onPurchase: (ticketId: string, quantity: number) => boolean;
   onOpenChat?: () => void;
 }
 
 function PaymentGateway({
+  initialTicketId = "early",
   remainingEarlyTickets,
   onPurchase,
   onOpenChat,
 }: PaymentGatewayProps) {
-  const [selectedId, setSelectedId] = useState("early");
-
-  // Se guarda como texto para permitir borrar el campo mientras se escribe.
+  const [selectedId, setSelectedId] = useState(initialTicketId);
   const [quantityInput, setQuantityInput] = useState("0");
-
   const [step, setStep] = useState(0);
+
   const [customerName, setCustomerName] = useState("");
   const [customerEmail, setCustomerEmail] = useState("");
+
   const [showHelp, setShowHelp] = useState(false);
   const [purchaseError, setPurchaseError] = useState("");
 
@@ -126,7 +127,6 @@ function PaymentGateway({
   }
 
   function handleQuantityChange(value: string) {
-    // Permite únicamente números enteros positivos o el campo vacío.
     if (!/^\d*$/.test(value)) return;
 
     if (value === "") {
@@ -229,6 +229,7 @@ function PaymentGateway({
       id="payment"
       className="payment"
       aria-labelledby="payment-title"
+      style={{ scrollMarginTop: "100px" }}
     >
       <div className="payment-panel">
         <header className="payment-header">

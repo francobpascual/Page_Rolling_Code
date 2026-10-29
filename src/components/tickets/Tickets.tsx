@@ -1,83 +1,89 @@
 import "./Tickets.css";
 import { tickets } from "../../data/eventData";
 
-function Tickets() {
+interface TicketsProps {
+  remainingEarlyTickets: number;
+  onSelectTicket: (ticketId: string) => void;
+}
+
+function Tickets({
+  remainingEarlyTickets,
+  onSelectTicket,
+}: TicketsProps) {
   return (
     <section
       id="entradas"
       className="tickets"
       aria-labelledby="tickets-title"
     >
-      <div className="tickets-container">
-        <header className="tickets-header">
-          <p className="tickets-eyebrow">ENTRADAS</p>
+      <header className="tickets-header">
+        <p>ENTRADAS</p>
 
-          <h2 id="tickets-title" className="tickets-title">
-            Asegurá tu lugar antes de que suba el precio
-          </h2>
-        </header>
+        <h2 id="tickets-title">
+          Asegurá tu lugar antes de que suba el precio
+        </h2>
+      </header>
 
-        <div className="tickets-grid row g-4">
-          {tickets.map((ticket) => (
-            <div
+      <div className="tickets-grid">
+        {tickets.map((ticket) => {
+          const isEarlyBird = ticket.id === "early";
+          const isSoldOut = isEarlyBird && remainingEarlyTickets === 0;
+
+          const badge = isEarlyBird
+            ? isSoldOut
+              ? "Agotadas"
+              : `Quedan ${remainingEarlyTickets}`
+            : ticket.badge;
+
+          return (
+            <article
               key={ticket.id}
-              className={
-                ticket.id === "virtual"
-                  ? "col-12"
-                  : "col-12 col-md-6"
-              }
+              className={`ticket-card ticket-card--${ticket.id}`}
             >
-              <article
-                className={`ticket-card ticket-card--${ticket.id}`}
+              <header className="ticket-card-header">
+                <h3 className="ticket-name">{ticket.name}</h3>
+
+                <span className="ticket-badge">{badge}</span>
+              </header>
+
+              <div className="ticket-prices">
+                <strong>{ticket.price}</strong>
+
+                {ticket.previousPrice && (
+                  <del>{ticket.previousPrice}</del>
+                )}
+              </div>
+
+              <p className="ticket-description">
+                {ticket.description}
+              </p>
+
+              <ul className="ticket-benefits">
+                {ticket.benefits.map((benefit) => (
+                  <li key={benefit}>
+                    <span className="checkmark" aria-hidden="true">
+                      ✓
+                    </span>
+
+                    {benefit}
+                  </li>
+                ))}
+              </ul>
+
+              <button
+                type="button"
+                className="ticket-button"
+                disabled={isSoldOut}
+                onClick={() => onSelectTicket(ticket.id)}
               >
-                <header className="ticket-card-header">
-                  <h3 className="ticket-name">{ticket.name}</h3>
-
-                  <span className="ticket-badge">
-                    {ticket.badge}
-                  </span>
-                </header>
-
-                <div className="ticket-prices">
-                  <strong className="ticket-price">
-                    {ticket.price}
-                  </strong>
-
-                  {ticket.previousPrice && (
-                    <del className="ticket-previous-price">
-                      {ticket.previousPrice}
-                    </del>
-                  )}
-                </div>
-
-                <p className="ticket-description">
-                  {ticket.description}
-                </p>
-
-                <ul className="ticket-benefits">
-                  {ticket.benefits.map((benefit) => (
-                    <li key={benefit}>
-                      <span className="checkmark" aria-hidden="true">
-                        ✓
-                      </span>
-
-                      <span>{benefit}</span>
-                    </li>
-                  ))}
-                </ul>
-
-                  <a href="#payment" className="ticket-button">
-                    Comprar entrada
-                  </a>
-              </article>
-            </div>
-          ))}
-        </div>
+                {isSoldOut ? "Entradas agotadas" : "Comprar entrada"}
+              </button>
+            </article>
+          );
+        })}
       </div>
     </section>
   );
 }
 
 export default Tickets;
-
-

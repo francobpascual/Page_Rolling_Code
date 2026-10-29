@@ -25,8 +25,35 @@ function App() {
 
   const remainingTicketsRef = useRef(INITIAL_REMAINING_TICKETS);
 
+  const [paymentSelection, setPaymentSelection] = useState({
+    ticketId: "early",
+    version: 0,
+  });
+
+  function handleSelectTicket(ticketId: string) {
+    if (!["early", "general", "virtual"].includes(ticketId)) return;
+
+    setPaymentSelection((previous) => ({
+      ticketId,
+      version: previous.version + 1,
+    }));
+
+    window.requestAnimationFrame(() => {
+      const paymentSection = document.getElementById("payment");
+
+      const prefersReducedMotion = window.matchMedia(
+        "(prefers-reduced-motion: reduce)"
+      ).matches;
+
+      paymentSection?.scrollIntoView({
+        behavior: prefersReducedMotion ? "auto" : "smooth",
+        block: "start",
+      });
+    });
+  }
+
   function handlePurchase(ticketId: string, quantity: number): boolean {
-    if (!Number.isInteger(quantity) || quantity <= 0) {
+    if (!Number.isSafeInteger(quantity) || quantity <= 0) {
       return false;
     }
 
@@ -63,9 +90,14 @@ function App() {
         remainingTickets={remainingEarlyTickets}
       />
 
-      <Tickets />
+      <Tickets
+        remainingEarlyTickets={remainingEarlyTickets}
+        onSelectTicket={handleSelectTicket}
+      />
 
       <PaymentGateway
+        key={paymentSelection.version}
+        initialTicketId={paymentSelection.ticketId}
         remainingEarlyTickets={remainingEarlyTickets}
         onPurchase={handlePurchase}
       />
