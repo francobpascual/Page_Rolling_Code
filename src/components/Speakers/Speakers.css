@@ -1,4 +1,5 @@
 .speakers {
+  min-width: 0;
   padding: 96px 24px 0;
 
   background-color: var(--rc-black);
@@ -14,9 +15,11 @@
 .speakers__container {
   width: 100%;
   max-width: 1200px;
+  min-width: 0;
   margin-inline: auto;
 }
 
+/* Encabezado */
 .speakers__header {
   margin-bottom: 32px;
 }
@@ -43,10 +46,27 @@
   letter-spacing: -1px;
 }
 
-.speakers__grid > .col {
-  display: flex;
+/* Grilla de escritorio */
+.speakers__grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 24px;
+
+  width: 100%;
+  min-width: 0;
 }
 
+.speakers__grid:focus-visible {
+  outline: 2px solid var(--rc-red);
+  outline-offset: 4px;
+}
+
+.speakers__slide {
+  display: flex;
+  min-width: 0;
+}
+
+/* Tarjeta */
 .speaker-card {
   position: relative;
   display: flex;
@@ -117,7 +137,7 @@
   line-height: 1.55;
 }
 
-
+/* Hover en dispositivos con mouse */
 @media (hover: hover) and (pointer: fine) {
   .speaker-card:hover {
     transform: scale(1.03);
@@ -129,7 +149,68 @@
   }
 }
 
+/* Tres tarjetas por fila */
+@media (min-width: 992px) and (max-width: 1199.98px) {
+  .speakers__grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
 
+/* Dos tarjetas por fila */
+@media (min-width: 768px) and (max-width: 991.98px) {
+  .speakers__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* Carrusel en celulares */
+@media (max-width: 767.98px) {
+  .speakers__grid {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: stretch;
+    gap: 16px;
+
+    width: 100%;
+    margin: 0;
+    padding: 4px 0 16px;
+
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    overscroll-behavior-x: contain;
+
+    scrollbar-width: thin;
+    scrollbar-color: var(--rc-red) var(--rc-surface);
+  }
+
+  .speakers__slide {
+    /* Se ve una tarjeta y parte de la siguiente */
+    flex: 0 0 85%;
+    min-width: 0;
+
+    scroll-snap-align: start;
+  }
+
+  .speakers__grid .speaker-card:hover {
+    transform: none;
+  }
+
+  .speakers__grid::-webkit-scrollbar {
+    height: 6px;
+  }
+
+  .speakers__grid::-webkit-scrollbar-track {
+    background-color: var(--rc-surface);
+    border-radius: 999px;
+  }
+
+  .speakers__grid::-webkit-scrollbar-thumb {
+    background-color: var(--rc-red);
+    border-radius: 999px;
+  }
+}
+
+/* Movimiento reducido */
 @media (prefers-reduced-motion: reduce) {
   .speaker-card,
   .speaker-card__talk {
