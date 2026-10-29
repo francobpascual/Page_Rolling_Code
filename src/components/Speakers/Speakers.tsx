@@ -1,5 +1,6 @@
 import SpeakerCard from "./SpeakersCard";
 import "./Speakers.css";
+
 import speaker6 from "../../assets/photos/speaker6.jpg";
 import speaker5 from "../../assets/photos/speaker5.jpg";
 import speaker2 from "../../assets/photos/speaker2.jpg";
@@ -11,21 +12,19 @@ import speaker8 from "../../assets/photos/speaker8.png";
 import speaker9 from "../../assets/photos/speaker9.png";
 import speaker10 from "../../assets/photos/speaker10.png";
 
-
 const speakers = [
   {
     id: "tomas-escudero",
     name: "Tomas Escudero",
-    image: speaker7,  
+    image: speaker7,
     talkTitle: "Diseño para developers",
     description:
       "Qué mira un equipo de diseño antes de que escribas código y cómo leer un mockup para construirlo igual.",
-    
   },
   {
     id: "franco-diaz",
     name: "Franco Diaz",
-    image: speaker2 ,
+    image: speaker2,
     talkTitle: "De cero a tu primer proyecto",
     description:
       "Un recorrido para pasar de mirar tutoriales a terminar una app simple con HTML, JavaScript y React.",
@@ -57,7 +56,7 @@ const speakers = [
   {
     id: "tomas-gomez",
     name: "Tomas Gomez",
-    image: speaker6,  
+    image: speaker6,
     talkTitle: "Preparate para tu primera entrevista",
     description:
       "Qué preguntan en una entrevista técnica, cómo practicar y cómo contar tus proyectos con claridad.",
@@ -73,7 +72,7 @@ const speakers = [
   {
     id: "julian-martin",
     name: "Julian Martin",
-    image: speaker0 ,
+    image: speaker0,
     talkTitle: "Testing: cómo no romper todo",
     description:
       "Qué es testear, por qué importa y cómo escribir tus primeras pruebas sin complicarte.",
@@ -112,9 +111,14 @@ function Speakers() {
           </h2>
         </header>
 
-        <div className="speakers__grid row row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-5 g-4">
+        <div
+          className="speakers__grid"
+          role="region"
+          aria-label="Tarjetas de speakers"
+          tabIndex={0}
+        >
           {speakers.map((speaker) => (
-            <div className="col" key={speaker.id}>
+            <div className="speakers__slide" key={speaker.id}>
               <SpeakerCard
                 name={speaker.name}
                 image={speaker.image}
